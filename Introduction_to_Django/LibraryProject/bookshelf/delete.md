@@ -1,4 +1,4 @@
-Deleting the book
+# Deleting the book
 
 # Delete the book from the database
 deleted_count, deleted_objects = book.delete()
