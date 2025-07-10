@@ -1,4 +1,4 @@
-Retrieving and displaying all attributes of the book the was created
+# Retrieving and displaying all attributes of the book the was created
 
 # Retrieve all books
 books = Book.objects.all()
