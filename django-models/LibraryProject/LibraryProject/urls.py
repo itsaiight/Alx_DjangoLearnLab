@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from relationship_app.views import LibraryDetailView, list_books, librarian_view, admin_view, member_view  # Import the LibraryDetailView
+from relationship_app.views import LibraryDetailView, list_books, librarian_view, admin_view, member_view, add_book, edit_book, delete_book  # Import the LibraryDetailView
 from django.contrib.auth import views as auth_views
 from relationship_app.views import register
 
@@ -31,6 +31,9 @@ urlpatterns = [
     path('admin-dashboard/', admin_view, name='admin_view'),
     path('librarian-dashboard/', librarian_view, name='librarian_view'),
     path('member-dashboard/', member_view, name='member_view'),
+    path('books/add/', add_book, name='add_book'),
+    path('books/<int:book_id>/edit/', edit_book, name='edit_book'),
+    path('books/<int:book_id>/delete/', delete_book, name='delete_book'),
 
 
 ]
