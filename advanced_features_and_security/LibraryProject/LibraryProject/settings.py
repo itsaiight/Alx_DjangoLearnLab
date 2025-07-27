@@ -175,3 +175,6 @@ SECURE_BROWSER_XSS_FILTER = True
 
 # Prevent the site from being embedded in an iframe (clickjacking protection)
 X_FRAME_OPTIONS = "DENY"
+
+# Trust X-Forwarded-Proto header set by the proxy to detect HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
