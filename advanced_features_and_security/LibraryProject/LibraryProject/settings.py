@@ -154,3 +154,24 @@ SECURE_HSTS_PRELOAD = True
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_SCRIPT_SRC = ("'self'", 'https://cdn.jsdelivr.net')  # example CDN
 CSP_STYLE_SRC = ("'self'", 'https://fonts.googleapis.com')
+
+# Force HTTPS redirect for all incoming HTTP traffic
+SECURE_SSL_REDIRECT = True  # Redirect HTTP -> HTTPS
+
+# HTTP Strict Transport Security (HSTS) settings
+SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS for 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
+SECURE_HSTS_PRELOAD = True  # Allow site to be included in browser preload list
+
+# Secure cookies
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Prevent browsers from MIME-sniffing the content type
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enable XSS protection in supported browsers
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevent the site from being embedded in an iframe (clickjacking protection)
+X_FRAME_OPTIONS = "DENY"
