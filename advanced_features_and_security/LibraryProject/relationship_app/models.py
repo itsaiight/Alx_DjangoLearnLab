@@ -49,6 +49,4 @@ class UserProfile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='Member')
 
-from django.contrib.auth.models import Group, Permission
-from django.contrib.contenttypes.models import ContentType
-from relationship_app.models import Book
+
