@@ -17,9 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from api.urls import ListView, DetailView, CreateView, UpdateView, DeleteView
+from rest_framework.authtoken.views import obtain_auth_token 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api-auth-token/', obtain_auth_token, name='api_token_auth'),
     path('books/', ListView.as_view(), name='booklist'),
     path('books/<int:pk>/', DetailView.as_view(), name='bookdetail'),
     path('books/create/', CreateView.as_view, name='bookcreate'),

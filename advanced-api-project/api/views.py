@@ -4,11 +4,12 @@ from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
+
 # Create your views here.
 # ListView for listing all books
 class ListView(generics.ListAPIView):
     queryset = Book.objects.all()
-    serializer = BookSerializer
+    serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     
 # DetailView for retrieving a single book by its primary key
