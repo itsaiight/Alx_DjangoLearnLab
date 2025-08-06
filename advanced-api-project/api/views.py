@@ -3,23 +3,23 @@ from rest_framework import generics, viewsets, filters
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework
 import django_filters
 
 
 
 # Create your views here.
 class BookFilter(django_filters.FilterSet):
-    publication_year = django_filters.NumberFilter(field_name='published_date', lookup_expr='year')
+    publication_year = django_filters.NumberFilter(field_name='publication_year', lookup_expr='year')
 
     class Meta:
         model = Book
         fields = {
             'title': ['exact', 'icontains'],
-            'author__name': ['exact', 'icontains'],
-            'published_date': ['exact'],
+            'author': ['exact', 'icontains'],
+            'publication_year': ['exact'],
         }
-        
+
 # ListView for listing all books
 class ListView(generics.ListAPIView):
     queryset = Book.objects.all()
@@ -27,14 +27,14 @@ class ListView(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     filter_backends = [
-        DjangoFilterBackend,
+        rest_framework.DjangoFilterBackend,
         filters.SearchFilter,
         filters.OrderingFilter,
     ]
 
     filterset_class = BookFilter
-    search_fields = ['title', 'author__name']
-    ordering_fields = ['title', 'published_date']
+    search_fields = ['title', 'author']
+    ordering_fields = ['title', 'publication_year']
     ordering = ['title']
     
 # DetailView for retrieving a single book by its primary key
