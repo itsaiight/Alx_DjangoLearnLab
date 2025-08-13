@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, viewsets, filters
 from .models import Book
 from .serializers import BookSerializer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
 from django_filters import rest_framework
 import django_filters
 
@@ -16,7 +16,7 @@ class BookFilter(django_filters.FilterSet):
         model = Book
         fields = {
             'title': ['exact', 'icontains'],
-            'author': ['exact', 'icontains'],
+            'author__name': ['exact', 'icontains'],
             'publication_year': ['exact'],
         }
 
