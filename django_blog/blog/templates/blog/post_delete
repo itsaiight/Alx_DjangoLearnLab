@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="content">
+        <div style="background: white; padding: 20px; margin-bottom: 20px;">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset style="border: none; padding: 0; margin: 0;">
+                    <legend style="padding-bottom: 10px; margin-bottom: 15px; border-bottom: 1px solid #eee; font-size: 1.2em;">Delete Post</legend>
+                    <h2 style="margin-bottom: 20px;">Are you sure you want to delete the post "{{ object.title }}"?</h2>
+                </fieldset>
+                <div>
+                    <button type="submit" style="background-color: transparent; color: #dc3545; border: 1px solid #dc3545; padding: 8px 15px; cursor: pointer; margin-right: 10px;">Yes, Delete</button>
+                    <a href="{% url 'post-detail' object.id %}" style="background-color: transparent; color: #6c757d; border: 1px solid #6c757d; padding: 8px 15px; text-decoration: none; display: inline-block;">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

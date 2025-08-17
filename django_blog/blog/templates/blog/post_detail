@@ -1,0 +1,20 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="content">
+        <div style="background: white; padding: 20px; margin-bottom: 20px;">
+            <div style="padding-bottom: 10px; margin-bottom: 15px; border-bottom: 1px solid #eee;">
+                <a href="#" style="color: #333; margin-right: 10px;">{{ post.author }}</a>
+                <small class="text-muted">{{ post.published_date|date:"F d, Y" }}</small>
+                {% if post.author == user %}
+                    <div style="margin-top: 10px;">
+                        <a href="{% url 'post-update' post.id %}" style="background-color: #6c757d; color: white; padding: 5px 10px; text-decoration: none; margin-right: 5px;">Update</a>
+                        <a href="{% url 'post-delete' post.id %}" style="background-color: #dc3545; color: white; padding: 5px 10px; text-decoration: none;">Delete</a>
+                    </div>
+                {% endif %}
+            </div>
+            <h2 style="color: #444; font-size: 24px; margin-bottom: 15px;">{{ post.title }}</h2>
+            <p style="line-height: 1.6; color: #555;">{{ post.content }}</p>
+        </div>
+    </div>
+{% endblock %}

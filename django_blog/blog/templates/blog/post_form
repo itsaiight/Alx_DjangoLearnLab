@@ -1,0 +1,25 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="content">
+        <div style="background: white; padding: 20px; margin-bottom: 20px;">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset style="border: none; padding: 0; margin: 0;">
+                    <legend style="padding-bottom: 10px; margin-bottom: 15px; border-bottom: 1px solid #eee; font-size: 1.2em;">Blog Post</legend>
+                    <div style="margin-bottom: 15px;">
+                        <label for="id_title" style="display: block; margin-bottom: 5px;">Title</label>
+                        <input type="text" name="title" id="id_title" required style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label for="id_content" style="display: block; margin-bottom: 5px;">Content</label>
+                        <textarea name="content" id="id_content" required style="width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; min-height: 200px;"></textarea>
+                    </div>
+                </fieldset>
+                <div>
+                    <button type="submit" style="background-color: transparent; color: #17a2b8; border: 1px solid #17a2b8; padding: 8px 15px; cursor: pointer;">Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
