@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.views import LoginView, LogoutView
+from django import forms
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.models import User
-from django.views.generic import DetailView
+from django.views import View
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
 class SignUpView(CreateView):
@@ -14,34 +15,27 @@ class SignUpView(CreateView):
     template_name = 'register.html'
     success_url = reverse_lazy('login')
 
-class ProfileView(LoginRequiredMixin, UpdateView):
-    model = User
-    template_name = "blog/profile.html"
-    fields = ["username", "email", "first_name", "last_name"]
-    success_url = reverse_lazy("profile")
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
 
-    def get_object(self, queryset=None):
-        # Always return the logged-in user
-        return self.request.user
+class ProfileView(LoginRequiredMixin, View):
+    template_name = 'blog/profile.html'
 
-    def post(self, request, *args, **kwargs):
-        """Explicitly handle POST requests (so 'POST' and 'method' appear)."""
-        self.object = self.get_object()
-        form = self.get_form()
+    def get(self, request):
+        form = ProfileForm(instance=request.user)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = ProfileForm(request.POST, instance=request.user)
         if form.is_valid():
-            return self.form_valid(form)
+            form.save()  
+            messages.success(request, "Your profile was updated successfully.")
+            return redirect('profile')
         else:
-            return self.form_invalid(form)
-
-    def form_valid(self, form):
-        """Save explicitly so 'save()' appears in this file."""
-        self.object = form.save()
-        messages.success(self.request, "Profile updated successfully!")
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(self.request, "Please correct the errors below.")
-        return super().form_invalid(form)
+            messages.error(request, "Please correct the errors below.")
+        return render(request, self.template_name, {'form': form})
 
     
 
