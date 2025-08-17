@@ -1,6 +1,7 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+<article class="post">
     <div class="content">
         <div style="background: white; padding: 20px; margin-bottom: 20px;">
             <div style="padding-bottom: 10px; margin-bottom: 15px; border-bottom: 1px solid #eee;">
@@ -17,4 +18,44 @@
             <p style="line-height: 1.6; color: #555;">{{ post.content }}</p>
         </div>
     </div>
+    
+    <section class="comments">
+        <h3>Comments ({{ comments.count }})</h3>
+        
+        {% if user.is_authenticated %}
+        <div class="add-comment">
+            <h4>Add a comment</h4>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        {% else %}
+        <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
+        {% endif %}
+        
+        <div class="comment-list">
+            {% for comment in comments %}
+            <div class="comment">
+                <div class="comment-header">
+                    <strong>{{ comment.author.username }}</strong>
+                    <small>{{ comment.created_at|timesince }} ago</small>
+                    {% if comment.author == user %}
+                    <div class="comment-actions">
+                        <a href="{% url 'edit_comment' pk=comment.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{% url 'delete_comment' pk=comment.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="comment-body">
+                    {{ comment.content|linebreaks }}
+                </div>
+            </div>
+            {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+            {% endfor %}
+        </div>
+    </section>
+</article>
 {% endblock %}
