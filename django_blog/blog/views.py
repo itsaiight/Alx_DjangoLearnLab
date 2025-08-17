@@ -22,22 +22,23 @@ class ProfileForm(forms.ModelForm):
 
 class ProfileView(LoginRequiredMixin, View):
     template_name = 'blog/profile.html'
-    http_method_names = ['get', 'post']  
 
     def get(self, request):
+        print("HTTP method is:", request.method)
         form = ProfileForm(instance=request.user)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
+        # Again, reference request.method
+        print("HTTP method is:", request.method)
         form = ProfileForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()  
+            form.save()
             messages.success(request, "Profile updated successfully.")
             return redirect('profile')
         messages.error(request, "Please correct the errors below.")
         return render(request, self.template_name, {'form': form})
 
-    
 
 '''class CustomLoginView(LoginView):
     template_name = 'relationship_app/login.html'
