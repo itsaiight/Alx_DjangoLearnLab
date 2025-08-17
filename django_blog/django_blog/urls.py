@@ -29,7 +29,7 @@ from blog.views import (
     CommentUpdateView, 
     CommentDeleteView,
     PostSearchView,
-    PostsByTagView
+    PostsByTagListView
 )
 
 urlpatterns = [
@@ -47,6 +47,6 @@ urlpatterns = [
     path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment_update'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
     path('search/', PostSearchView.as_view(), name='post_search'),
-    path('tags/<slug:tag_slug>/', PostsByTagView.as_view(), name='posts_by_tag'),
+    path('tags/<slug:tag_slug>/', PostsByTagListView.as_view(), name='posts_by_tag'),
 ]
 
