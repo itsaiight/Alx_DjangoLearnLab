@@ -1,0 +1,32 @@
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="content">
+  <h1 style="text-align:center; margin-bottom:20px;">Login</h1>
+  <div class="auth-card" style="background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); max-width:400px; margin:auto;">
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <div class="form-group" style="margin-bottom:15px;">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.username.errors }}
+      </div>
+
+      <div class="form-group" style="margin-bottom:15px;">
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        {{ form.password.errors }}
+      </div>
+
+      <button type="submit" style="width:100%; padding:10px; background:#333; color:#fff; border:none; border-radius:5px;">
+        Sign In
+      </button>
+    </form>
+    <p style="text-align:center; margin-top:15px;">
+      Don’t have an account? <a href="{% url 'register' %}">Register</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

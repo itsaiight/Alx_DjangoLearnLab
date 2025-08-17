@@ -1,0 +1,13 @@
+{% block title %}Logout{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="auth-card" style="background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); max-width:400px; margin:auto; text-align:center;">
+    <h1>Logged Out</h1>
+    <p style="margin:15px 0;">You have been successfully logged out.</p>
+    <a href="{% url 'login' %}" style="display:inline-block; padding:10px 20px; background:#333; color:#fff; text-decoration:none; border-radius:5px;">
+      Sign in again
+    </a>
+  </div>
+</div>
+{% endblock %}
