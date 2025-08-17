@@ -57,5 +57,12 @@
             {% endfor %}
         </div>
     </section>
+    <div class="post-tags mb-3">
+    {% for tag in post.tags.all %}
+        <a href="{% url 'posts_by_tag' tag.slug %}" class="badge bg-secondary">
+            {{ tag.name }}
+        </a>
+    {% endfor %}
+</div>
 </article>
 {% endblock %}

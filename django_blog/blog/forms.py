@@ -17,3 +17,8 @@ class CommentForm(forms.ModelForm):
                 'placeholder': 'Write your comment here...'
             }),
         }
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
