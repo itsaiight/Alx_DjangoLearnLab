@@ -22,6 +22,7 @@ class ProfileForm(forms.ModelForm):
 
 class ProfileView(LoginRequiredMixin, View):
     template_name = 'blog/profile.html'
+    http_method_names = ['get', 'post']  
 
     def get(self, request):
         form = ProfileForm(instance=request.user)
@@ -31,10 +32,9 @@ class ProfileView(LoginRequiredMixin, View):
         form = ProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()  
-            messages.success(request, "Your profile was updated successfully.")
+            messages.success(request, "Profile updated successfully.")
             return redirect('profile')
-        else:
-            messages.error(request, "Please correct the errors below.")
+        messages.error(request, "Please correct the errors below.")
         return render(request, self.template_name, {'form': form})
 
     
