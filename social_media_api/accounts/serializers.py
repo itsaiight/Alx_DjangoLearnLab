@@ -17,7 +17,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username", "email", "password")
-    #User.objects.create() is basically get_user_model.objects.create()
+    #User.objects.create() is basically get_user_model.objects.create_user()
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data["username"],
