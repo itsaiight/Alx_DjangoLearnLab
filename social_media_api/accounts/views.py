@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from .models import CustomUser
-from .serializers import RegisterSerializer, LoginSerializer, CustomUserSerializer
+from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
 
 # Create your views here.
 '''implement views and serializers in the accounts app for user registration, login, and token retrieval.'''
@@ -27,12 +27,12 @@ class LoginView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
         token, created = Token.objects.get_or_create(user=user)
-        return Response({"user": CustomUserSerializer(user).data, "token": token.key})
+        return Response({"user": UserSerializer(user).data, "token": token.key})
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = CustomUserSerializer
+    serializer_class = UserSerializer
 
     def get_object(self):
         return self.request.user
