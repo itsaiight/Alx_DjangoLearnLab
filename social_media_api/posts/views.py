@@ -1,39 +1,30 @@
 from django.shortcuts import render
-from rest_framework import generics, viewsets
+from rest_framework import viewsets, filters
+from rest_framework.permissions import IsAuthenticated
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 # Create your views here.
 
-class PostList(generics.ListAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["title", "content"]
 
-    def get_queryset(self):
-        return Post.objects.all()
     def perform_create(self, serializer):
-        serializer.save()  
-    def perform_update(self, serializer):
-        serializer.save()
+        serializer.save(author=self.request.user)  
     def perform_destroy(self, instance):
         return super().perform_destroy(instance)
     
-class CommentList(generics.ListAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by("-created_at")
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return Comment.objects.all()
     def perform_create(self, serializer):
-        serializer.save()  # Save the book instance
-    def perform_update(self, serializer):
-        serializer.save()
+        serializer.save(author=self.request.user)  
     def perform_destroy(self, instance):
         return super().perform_destroy(instance)
