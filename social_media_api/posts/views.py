@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, generics
 from rest_framework.permissions import IsAuthenticated
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
@@ -28,3 +28,13 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)  
     def perform_destroy(self, instance):
         return super().perform_destroy(instance)
+    
+class FeedView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # get all users the current user follows
+        following_users = self.request.user.following.all()
+        # filter posts by those authors, ordered by newest first
+        return Post.objects.filter(author__in=following_users).order_by("-created_at")
