@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
@@ -33,14 +32,19 @@ class LoginView(APIView):
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
 
     def get_object(self):
         return self.request.user
+    
+class UserListView(generics.ListAPIView):
+    queryset = CustomUser.objects.all()  
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-class FollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+class FollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     
     def follow_user(self,  request, user_id):
         target_user = get_object_or_404(User, id=user_id)
@@ -58,8 +62,8 @@ class FollowUserView(APIView):
         )
 
 
-class UnfollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+class UnfollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     def unfollow_user(self, request, user_id):
         target_user = get_object_or_404(User, id=user_id)
