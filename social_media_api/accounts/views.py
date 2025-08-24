@@ -5,7 +5,6 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from .models import CustomUser
 from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
-from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 # Create your views here.
 '''implement views and serializers in the accounts app for user registration, login, and token retrieval.'''
@@ -47,7 +46,7 @@ class FollowUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     
     def follow_user(self,  request, user_id):
-        target_user = get_object_or_404(User, id=user_id)
+        target_user = generics.get_object_or_404(User, id=user_id)
 
         if target_user == request.user:
             return Response(
@@ -66,7 +65,7 @@ class UnfollowUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def unfollow_user(self, request, user_id):
-        target_user = get_object_or_404(User, id=user_id)
+        target_user = generics.get_object_or_404(User, id=user_id)
 
         if target_user == request.user:
             return Response(

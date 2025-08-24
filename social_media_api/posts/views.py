@@ -1,4 +1,3 @@
-from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, filters, generics, permissions, status
 from .models import Post, Comment, Like
 from .serializers import PostSerializer, CommentSerializer
@@ -45,13 +44,13 @@ class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
 
         # prevent duplicate like
         if Like.objects.filter(user=request.user, post=post).exists():
             return Response({"detail": "You already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
 
-        Like.objects.create(user=request.user, post=post)
+        Like.objects.get_or_create(user=request.user, post=post)
 
         # create notification for the post author
         if post.author != request.user:
@@ -69,7 +68,7 @@ class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
 
         like = Like.objects.filter(user=request.user, post=post).first()
         if not like:
